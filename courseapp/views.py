@@ -15,16 +15,21 @@ class LessonList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Список занятий'
-        groups = self.request.user.profile.group.all()
-        # lessons = Lesson.objects.filter(group__in=groups)
-        context['object_list'] = Lesson.objects.filter(group__in=groups)
+        if not self.request.user.is_superuser:
+            groups = self.request.user.profile.group.all()
+            context['object_list'] = Lesson.objects.filter(group__in=groups)
+        else:
+            context['object_list'] = Lesson.objects.all()
         return context
 
 
 class ExportJson(View):
     def get(self, request, *args, **kwargs):
-        groups = self.request.user.profile.group.all()
-        lessons = Lesson.objects.filter(group__in=groups)
+        if not self.request.user.is_superuser:
+            groups = self.request.user.profile.group.all()
+            lessons = Lesson.objects.filter(group__in=groups)
+        else:
+            lessons = Lesson.objects.all()
         
         response = {}
 
