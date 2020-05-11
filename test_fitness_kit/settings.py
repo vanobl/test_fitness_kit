@@ -27,8 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-AUTH_USER_MODEL = 'acountapp.User'
-
 
 # Application definition
 
@@ -42,6 +40,8 @@ INSTALLED_APPS = [
     'registration',
     'mainapp',
     'acountapp',
+    'groupstudentsapp',
+    'courseapp',
 ]
 
 MIDDLEWARE = [
