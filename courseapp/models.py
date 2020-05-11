@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+from groupstudentsapp.models import GroupOfStudents
+
 
 class Course(models.Model):
     class Meta:
@@ -99,5 +101,12 @@ class Lesson(models.Model):
         related_name='lesson'
     )
 
+    group = models.ForeignKey(
+        GroupOfStudents,
+        verbose_name='группа',
+        on_delete=models.PROTECT,
+        related_name='lesson'
+    )
+
     def __str__(self):
-        return f'{self.description} ({self.starttime})'
+        return f'{self.course.name}: {self.group.name} ({self.starttime})'
